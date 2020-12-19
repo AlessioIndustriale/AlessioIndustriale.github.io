@@ -34,8 +34,8 @@
         <p>Il sito è online grazie a github pages al seguente indirizzo <a href="https://alessioindustriale.github.io/">alessioindustriale.github.io</a> ed è possibile aggiornarlo e/o editarlo direttamente dalla pagina della repository all'indirizzo: <a href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/AlessioIndustriale/AlessioIndustriale.github.io</a></p>
         <br>
         <input type="text" placeholder="Rifiuto" id="input1" value="acque reflue">
-        <input type="text" placeholder="Processo produttivo" id="input2"> <!-- mettere luogo -->
-        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="produttore di energia"> <!-- azienda che emette il rifiuto -->
+        <input type="text" placeholder="Luogo" id="input2"> <!-- mettere luogo -->
+        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="comune locale"> 
         
         <button onclick="clicco()">Cerca</button>
 
@@ -533,7 +533,7 @@
 
             var lines = data;
 
-            var columnMap = [2, 3, 4];
+            var columnMap = [2, 0, 4];
 
             [document.getElementById("input1").value.trim().toLowerCase(),
             document.getElementById("input2").value.trim().toLowerCase(),
