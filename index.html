@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .bold {
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="margin: 20px; text-align: center;">
+        <h1 style="">
+            Dizionario Di Simbiosi Industriale
+        </h1>
+
+        <p>spiegazione</p>
+
+        <input type="text" placeholder="Rifiuto" id="input1" value="acque reflue">
+        <input type="text" placeholder="Processo produttivo" id="input2"> <!-- mettere luogo -->
+        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="produttore di energia"> <!-- azienda che emette il rifiuto -->
+
+        <button onclick="clicco()">Cerca</button>
+
+    </div>
+    <div style="padding-top: 20px;"></div>
+
+    <script>
+        var data = [["Kalundborg", "Chopra and Khanna (2014)", "acque reflue ", "raffreddamento ", "produttore di energia", "comune locale", "100%"],
+        ["Kalundborg", "Chopra and Khanna (2014)", "acque reflue ", "necessita di acqua per la produzione", "raffineria ", "produttore di energia", "100%"],
+        ["Kalundborg", "Chopra and Khanna (2014)", "acque reflue ", "necessita di acqua per la produzione", "industria farmaceutica", "raffineria Veedol (utente)", "100%"],
+        ["Kalundborg", "Chopra and Khanna (2014)", "acque reflue ", "necessita di acqua per la produzione", "industria farmaceutica", "comune locale", "100%"],
+        ["Kalundborg", "Branson (2016)", "acque reflue ", "lavorazione e raffreddamento", "comune locale", "raffineria", "100%"],
+        ["Kalundborg", "Branson (2016)", "GNL", "lavorazione", "raffineria", "industria del cemento", "100%"],
+        ["Kalundborg", "Branson (2016)", "acque reflue ", "lavorazione", "comune locale", "produttore di energia", "100%"],
+        ["Kalundborg", "Branson (2016)", "biomassa", "concimatura", "industria farmaceutica", "Fattorie locali", "75%"],
+        ["Kalundborg", "Branson (2016)", "cenere volante", "lavorazione", "produttore di energia", "industria del cemento", "80%"],
+        ["Kalundborg", "Branson (2016)", "calore disperso", "riscaldamento", "produttore di energia", "industria ittica", "65%"],
+        ["Kalundborg", "Branson (2016)", "vapore", "riscaldamento della comunità", "produttore di energia", "comune locale", "65%"],
+        ["Humber,UK", "Velentruf (2016) ", "oli esausti", "combustibile", "raffineria", "produttore di energia", "80%"],
+        ["Humber,UK", "Velentruf (2016) ", "materia prima agricola", "combustibile", "fattorie locali", "centrale elettrica", "80%"],
+        ["Humber,UK", "Velentruf (2016) ", "carburante derivato da rifiuti", "combustibile", "riciclatore specializzato", "produttore di energia", "85%"],
+        ["Humber,UK", "Velentruf (2016) ", "combustibile da legno di scarto", "combustibile", "raffineria", "produttore di energia", "75%"],
+        ["Humber,UK", "Velentruf (2016) ", "oli e gas usati", "combustibile", "riciclatore specializzato", "raffineria", "80%"],
+        ["Humber,UK", "Mirata, (2004)", "oli e gas usati", "combustibile", "industria chimica", "prooduttore di energia", "70%"],
+        ["Humber,UK", "Mirata, (2004)", "GNL", "combustibile", "raffineria", "prooduttore di energia", "60%"],
+        ["Humber,UK", "Mirata, (2004)", "acque reflue", "raffreddamento", "produttore di vapore", "prooduttore di energia", ""],
+        ["Humber,UK", "Mirata, (2004)", "scarti chimici", "riciclaggio", "industria chimica", "riciclatore specializzato", ""],
+        ["Humber,UK", "Mirata, (2004)", "biomassa derivante da maeria prima agricola", "combustione", "fattorie locali", "prooduttore di energia", ""],
+        ["Bristol", "Cerceau (2014) ", "GNL", "scambi simbiotici internazionali", "Europa (p.Marsiglia,p.Zelanda,p.Rotterdam,Anversa,Bruxell,Galizia,Bristol)", "Europa (p.Marsiglia,p.Zelanda,p.Rotterdam,Anversa,Bruxell,Galizia,Bristol)", ""],
+        ["Bristol", "Cerceau (2014) ", "sottoprodotti metallurgici", "scambi simbiotici internazionali", "Asia (Osaka,Kawasaki,Tianjin,Ningbo,Ulsan,Map ta Phut)", "Asia (Osaka,Kawasaki,Tianjin,Ningbo,Ulsan,Map ta Phut)", ""],
+        ["Bristol", "Cerceau (2014) ", "oli e gas usati", "scambi simbiotici internazionali", "Africa (Jorf Lasfar,Marocco,Bejaja)", "Africa (Jorf Lasfar,Marocco,Bejaja)", ""],
+        ["Bristol", "Cerceau (2014) ", "sottoprodotti", "scambi simbiotici internazionali", "Nord America (New York/New Jersey,Long Beach)", "Nord America (New York/New Jersey,Long Beach)", ""],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "rifiuti di vetro", "materia prima ", "produttore di vetro", "produttore di fibra di vetro", "85%"],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "rifiuti organici", "riciclaggio", "comune locale", "riciclatore specializzato", "80%"],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "rifiuti domestici", "riciclaggio", "comune locale", "riciclatore specializzato", ""],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "calore", "riscaldamento", "centrale elettrica", "comune locale", "100%"],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "acqua", "raffreddamento", "comune locale", "centrale elettrica", "100%"],
+        ["Landskrona", "Mirata and Emtairah, (2005)", "materiali e prodotti chimici", "materia prima", "industria chimica", "produttore di plastica", ""],
+        ["Handelo", "Martin and Eklund (2011) ", "oli e gas usati", "produzione di biodiesel", "produttore di energia", "produttore di etanolo", "50%"],
+        ["Handelo", "Martin and Eklund (2011) ", "distillato sottile", "produzione di biogas", "produttore di biogas e biomassa", "comune locale", "40%"],
+        ["Handelo", "Martin and Eklund (2011) ", "biomassa", "produzione di etanolo", "produttore di etanolo", "produttore di biogas e biomassa", "100%"],
+        ["Vastra Gotaland", "Patricio et al. (2018) ", "compost di funghi esauriti", "fertilizzante,produzione di biogas,cibo per animali", "produttrice di funghi", "fattorie locali", "100%"],
+        ["Vastra Gotaland", "Patricio et al. (2018) ", "grano esausto", "mangime per animali,produzione pane,biogas,etanolo", "birrificio", "fattorie locali", "100%"],
+        ["Vastra Gotaland", "Patricio et al. (2018) ", "lievito di scarto", "mangime per cavalli", "birrificio", "fattorie locali", "100%"],
+        ["Vastra Gotaland", "Patricio et al. (2018) ", "acque reflue", "produzione di alghe,biogas,funghi,celle di energia", "birrificio", "fattorie locali", "100%"],
+        ["Soten€as", "Martin and Harris, (2018)", "scarti organici", "fertilizzante,produzione di biogas,cibo per animali", "industria ittica", "fattorie locali", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "biomasse", "combustibile", "insustria ittica", "produttore di energia", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "acque reflue", "raffreddamento", "insustria ittica", "produttore di energia", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "silicone", "materia prima", "insustria ittica", "produttore di plastica", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "biomassa", "fertilizzante,produzione di biogas,cibo per animali", "insustria ittica", "Fattorie locali", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "grassi", "fertilizzante,produzione di biogas,cibo per animali", "insustria ittica", "Fattorie locali", ""],
+        ["Soten€as", "Martin and Harris, (2018)", "elettricità ", "materia prima", "produttore di biogas e biomassa", "produttore di energia", "75%"],
+        ["Soten€as", "Martin and Harris, (2018)", "calore", "materia prima", "produttore di biogas e biomassa", "produttore di energia", "80%"],
+        ["Soten€as", "Martin and Harris, (2018)", "scarti organici", "riciclaggio", "industria ittica", "riciclatore specializzato", "65%"],
+        ["Soten€as", "Martin and Harris, (2018)", "rifiuti di plastica", "materia prima", "insustria ittica", "produttore di plastica", "65%"],
+        ["Zelanda", "Spekkink (2013) ", "CO2", "materia prima", "produttore di fertilizzanti", "Fattorie locali", "100%"],
+        ["Zelanda", "Spekkink (2013) ", "amido", "materia prima", "produttore di amido", "produttore di etanolo", "80%"],
+        ["Zelanda", "Spekkink (2013) ", "acque reflue", "comune cittadino", "comune locale", "industrie locali", "100%"],
+        ["France, Meze", "Gibbs and Deutz, (2007)", "biogas", "combustibile", "Allevatore ittico di alghe", "centrale elettrica", "100%"],
+        ["France, Meze", "Gibbs and Deutz, (2007)", "biomassa", "combustibile", "Allevatore ittico di alghe", "industrie e comune locale", "85%"],
+        ["France, Meze", "Gibbs and Deutz, (2007)", "rifiuti otganici", "materia prima", "Allevatore ittico di alghe", "produtori di fertilizzanti locali", "85%"],
+        ["France, Meze", "Gibbs and Deutz, (2007)", "acque reflue", "raffreddamento", "impianto di trattamento acque reflue", "centrale elettrica", "100%"],
+        ["France, Meze", "Gibbs and Deutz, (2007)", "GNL", "materia prima", "Allevatore ittico di alghe", "comune locale", "75%"],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "scarti chimici", "materia prima", "produttore di zucchero", "produttore di plastica", ""],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "glucosio di scarro", "materia prima", "produttore di cosmetici", "industria alimentare", "70%"],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "acidi di scarto", "materia prima", "azienda produttrice di conservanti alimentari", "industria alimentare", "65%"],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "bioetanolo", "combustibile", "comune locale", "produttore di energia", ""],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "acque reflue", "raffreddamento", "comune locale", "produttore di energia", "100%"],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "CO2", "materia prima", "fattorie locali", "industria di bevande", "95%"],
+        ["France Bazancourt- Pomacle", "Schieb et al., (2015)", "rifiuti organici", "ricilaggio", "fattorie locali", "riciclatore specializzato", "95%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "acciaio di scarto", "materia prima", "industria dell' acciaio", "industria dell'acciaio", "90%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "calore", "combustibile", "industria del cemento", " centrale elettrica", "100%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "acque reflue", "materia prima", "industria del cemento", "industria del cemento", "100%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "calcestruzzo impuro", "materia prima", "industria del cemento", "industria del cemento", "85%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "fanghi settici", "materia prima", "industria del cemento", "industria del cemento", "70%"],
+        ["Dunkirk", "Morales and Diemer, (2019)", "scarti di silicio", "materia prima", "industria del cemento", "industria del cemento", "70%"],
+        ["Finlandia", "Mattila et Al (2010)", "corteccia,trucioli di legno, pasta di cellulosa,sospensione di fibre e torba macinata", "produzione di energia elettrica al posto dell' utilizzo del petrolio", "produttore di legname", "centrale elettrica", "90%"],
+        ["Finlandia", "Mattila et Al (2010)", "vapore, energia elettrica e calore", "produzione di carta, legame di utilità", "centrale elettrica", "produttore di legname", "100%"],
+        ["Lisbona", "Patricio et al. (2015) ", "corteccia e legno di scarto", "combustibile", "produttore di polpa", "produttore di elettricita", "75%"],
+        ["Lisbona", "Patricio et al. (2015) ", "ceneri pesanti e scorie di polvere di caldaia", "materia prima", "produttore di polpa", "produttore di cemento", "60%"],
+        ["Lisbona", "Patricio et al. (2015) ", "plastica e gomma", "materia prima", "produttore di polpa", "produttore di gomma", "80%"],
+        ["Lisbona", "Patricio et al. (2015) ", "cortecia e legno di scarto", "combustibile", "produttore di polpa", "produttore di cemento", "80%"],
+        ["Lisbona", "Patricio et al. (2015) ", "materiale abrasivo di scarto", "materia prima", "industria navale", "produttore di cemento", "80%"],
+        ["Lisbona", "Patricio et al. (2015) ", "rifiuti in legno", "combustibile", "costruttore di ferrovie e metropolitane", "produttore di cemento", "80%"],
+        ["Lisbona", "Patricio et al. (2015) ", "carta e cartone", "materia prima", "commercio all' ingrosso di cascami e rottami", "produttore di articoli per la casa e sanitari", "90%"],
+        ["Lisbona", "Patricio et al. (2015) ", "alluminio di scarto", "materia prima", "produttore di porte e finestre in metallo", "produttore di alluminio", "36%"],
+        ["Lisbona", "Patricio et al. (2015) ", "plastica e gomma", "materia prima", "produttore di porte e finestre in metallo", "produttore di lastre,fogli,tubi e profili in plastica", "40%"],
+        ["Lisbona", "Patricio et al. (2015) ", "metallo ferroso", "materia prima", "fabbricante di altri prodotti in metallo", "produttore di ferro acciaio di base e ferroleghe", "40%"],
+        ["Lisbona", "Patricio et al. (2015) ", "cristalli grezzi", "materia prima", "formatura e lavorazione del vetro piano", "produttore di vetro piano", "50%"],
+        ["Lisbona", "Patricio et al. (2015) ", "imballaggi metallici", "fabbricazione di strumenti ottici e attrezzature fotografiche", "industria metallurgica", "industria ottica", ""],
+        ["Lisbona", "Patricio et al. (2015) ", "pneumatici fuori uso", "fabbricazione di pneumatici e camere d'aria,ricostruzione di pneumatici in gomma", "riciclatore specializzato", "produttore di autoveicoli", ""],
+        ["Lisbona", "Patricio et al. (2015) ", "oli e  acidi", "produzione di oli e grassi", "fattorie locali", "produttore di autoveicoli", ""],
+        ["Lisbona", "Patricio et al. (2015) ", " trucioli di plastica", "fabbricazione di altre parti e accessori per autoveicoli", "riciclatore specializzato", "produttore di autoveicoli", ""],
+        ["Lisbona", "Patricio et al. (2015) ", "corteccia e legno di scarto", "produzione di pasta di legno", "fattorie locali", "produttore di carta", ""],
+        ["Austria Styria", "Zhang et al., (2013)", "corteccia ", "materia prima", "fattorie locali", "produttore di carta", "90%"],
+        ["Austria Styria", "Zhang et al., (2013)", "trucioli di legno", "materia prima", "fattorie locali", "produttore di biogas e biomassa", "82%"],
+        ["Austria Styria", "Zhang et al., (2013)", "pasta di cellulosa", "materia prima", "fattorie locali", "produttore di carta", "85%"],
+        ["Austria Styria", "Zhang et al., (2013)", "fibra e torba macinata", "materia prima", "fattorie locali", "produttore di carta", "85%"],
+        ["Austria Styria", "Zhang et al., (2013)", "scarti di costruzione", "materia prima", "industria dell' edilizia", "industria del cemento", "90%"],
+        ["Austria Styria", "Zhang et al., (2013)", "metallo ferroso", "materia prima", "industria dell' acciaio", "industria dell' acciaio", "100%"],
+        ["Austria Styria", "Zhang et al., (2013)", "scarti del petrolio", "materia prima", "raffineria", "produttore di materiali in plastica", "75%"],
+        ["Austria Styria", "Zhang et al., (2013)", "plastica grezza", "materia prima", "raffineria", "produttore di materiali in plastica", "70%"],
+        ["Italy Industrial area of Venice, Veneto region", "Mannino et al., (2015)", "prodotti chimici di scarto", "materia prima", "industrie chimiche ", "industria cosmetica", ""],
+        ["Italy Industrial area of Venice, Veneto region", "Mannino et al., (2015)", "solventi di scarto", "materia prima", "industrie chimiche ", "industria cosmetica", ""],
+        ["Italy Industrial area of Venice, Veneto region", "Mannino et al., (2015)", "acque reflue", "materia prima", "industrie chimiche ", "produttore di energia", ""],
+        ["Italy Industrial area of Venice, Veneto region", "Mannino et al., (2015)", "calore", "materia prima", "industrie chimiche ", "produttore di energia", ""],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "rifiuti organici", "materia prima", "comune locale", "riciclatore specializzato", "80%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "vetro di scarto", "materia prima ", "comune locale", "industria edile", "80%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "silicio", "materia prima", "industria edile", "industria del cemento", "80%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "prodotti chimici di scarto", "materia prima", "industria chimiche ", "industria farmaceutica", "80%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "solventi esausti", "materia prima", "industria chimiche", "industria farmaceutica", "90%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "acque reflue", "raffreddamento", "comunce locale", "produttore locale", "60%"],
+        ["Italy Prato, Tuscany Ponterosso, Friuli- Venezia Giulia Ancona, Marche", "Daddi et al., (2015)", "calore", "riscaldamento", "industrie chimiche ", "produttore di energia", "70%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "agenti chimici di base", "materia prima ", "industria chimica", "industria farmaceutica", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "acqua reflua", "trattamento per il riutilizzo", "riciclatore specializzato", "comune locale", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "catalizzatori esausti", "trattamento per il recupero e il riutilizzo di materiali preziosi", "industria chimica ", "produttore di zirconi", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "fanghi", "trattamento per lo smaltimento", "industria del cemento", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "silicio", "materia prima secondaria", "industria chimica", "industria del cemento", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "trucioli e torniture di metalli ferrosi", "materia prima", "industria dell' acciaio", "fonderia", "75%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "polvere e particelle di metalli ferrosi", "materia prima", "industria dell' acciaio", "fonderia", "60%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "limatura e tornitura di metalli non ferrosi", "materia prima", "industria dell' acciaio", "fonderia", "80%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "fanghi", "materia prima", "industria del cemento", "industria edile", "80%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "ferro e acciaio recuperati", "materia prima", "industria dell' acciaio", "fonderia", "80%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "polveri  e particelle di metalli non ferrosi", "materia prima", "industria dell' acciaio", "fonderia", "80%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "imballaggi misti", "materia prima", "riciclatore specializzato", "industria della plastica", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "imballaggi in carta e cartone", "materia prima", "riciclatore specializzato", "industria della carta e del cartone", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "emulsioni e soluzioni di lavorazione prive di alogeni", "trattamenti chimici per la depurazione del metallo", "industria chimica", "industria dell' acciaio", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "trucioli di plastica", "materia prima", "industria della plastica", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "fogli di pacciamatura", "materia prima", "industria edile", "industria della plastica", "75%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "nastri e imballaggi", "materia prima", "industria edile", "industria della plastica", "65%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "scatolame e palletts", "combustibile", "industria alimentare", "produttore di energia", "55%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "imballaggi misti", "riciclaggio", "industria alimentare", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "gomma organica", "riciclaggio", "industria della gomma", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "rottami di ferro e acciaio", "materia prima", "industria dell' acciaio", "fonderia", "76%"],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "olio esausto", "Consorzio obbligatorio per oli usati", "industria dell' acciaio", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "filtri dell'olio esausto", "Consorzio obbligatorio per oli usati", "industria dell' acciaio", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "batterie esauste", "trattamento e smaltimento", "comune locale", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "fanghi settici", "trattamento e smaltimento", "industria del cemento", "riciclatore specializzato", ""],
+        ["Italia,Abruzzo", "Taddeo et al. (2017) ", "altri materiali", "trattamento e smaltimento", "comune locale", "riciclatore specializzato", ""],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "prodotti chimici di scarto", "materia prima", "industria chimica", "industria farmaceutica", "75%"],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "solventi esausti", "materia prima", "industria chimica", "industria farmaceutica", "72%"],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "scarti di lavorazione del petrolio", "materia prima", "raffineria", "industria della plastica", "72%"],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "acque reflue", "raffreddamento", "raffineria", "produttore di energia", "100%"],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "calore", "produzione di energia", "riciclatore specializzato", "comune locale", "80%"],
+        ["Belgium Antwerp", "Cerceau et al., (2014)", "rifiuti organici", "materia prima per fertilizzanti", "riciclatore specializzato", "Fattorie locali", ""],
+        ["Belgium Koekhoven", "Verguts et al., (2016)", "biogas", "combustibile ", "fattorie locali", "produttore di energia", ""],
+        ["Belgium Koekhoven", "Verguts et al., (2016)", "biomassa", "combustibile ", "fattorie locali", "produttore di energia", ""],
+        ["Belgium Koekhoven", "Verguts et al., (2016)", "rifiuti organici", "produzione di fertilizzanti organici", "fattorie locali", "Industria chimica", ""],
+        ["Belgium Koekhoven", "Verguts et al., (2016)", "escrementi animali", "produzione di fertilizzanti organici", "fattorie locali", "industria chimica", ""],
+        ["Germany", "Ammenberg et al., (2015)", "ferro e acciaio", "materia prima ", "industria dell' acciaio", "fonderia", ""],
+        ["Germany", "Ammenberg et al., (2015)", "fanghi", "produzione di argilla cementizia", "industria del cemento", "industria edile", ""],
+        ["Germany", "Ammenberg et al., (2015)", "limatura e tornitura di metalli non ferrosi", "materia prima", "industria dell' acciaio", "fonderia", ""],
+        ["Germany", "Ammenberg et al., (2015)", "polvere e particelle di metalli ferrosi", "materia prima", "industria dell' acciaio", "fonderia", ""],
+        ["Germany", "Ammenberg et al., (2015)", "calore", "recupero energetico", "fonderia", "industria dell' acciaio", ""],
+        ["Latvia", "Rosa and Beloborodko (2015) ", " grano esausto dei produttori di birra ", "mangime per il bestiame", "Birrificio ", "Fattorie locali", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "grano esausto dei produttori di birra", "mangime per il bestiame,produzione di biscotti", "Birrificio ", "Fattorie locali", "65%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "grano esausto dei produttori di birra", "mangime per il bestiame", "Birrificio ", "Fattorie locali", "55%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "grano esausto dei produttori di birra", "Produzione di Biogas", "Birrificio ", "Fattorie locali", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "grano esausto dei produttori di birra", "mangime per il bestiame", "Birrificio ", "Fattorie locali", "65%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "grano esausto dei produttori di birra", "mangime per il bestiame", "Birrificio ", "Fattorie locali", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "materia prima per la produzione di pannelli in legno composito,recupero energetico,integratore per il terreno", "produttore di legno e compensato", "industria edile", "75%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "produzione di pellet", "produttore di legno e compensato", "industria alimentare", "60%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "produzione di pellet", "industria mobiliare", "industria alimentare", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "produzione di pellet", "industria mobiliare", "industria alimentare", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "produzione di pellet", "produttore di legno e compensato", "industria alimentare", "80%"],
+        ["Latvia", "Rosa and Beloborodko (2015) ", "trucioli di legno e segatura", "combustione", "produttore di legno e compensato", "produttore di energia", "80%"],
+        ["United States of America Barceloneta, Puerto Rico", "Chertow et al., (2008)", "prodotti chimici di scarto", "materia prima", "industria farmaceutica", "industria del sapone", "100%"],
+        ["United States of America Barceloneta, Puerto Rico", "Chertow et al., (2008)", "acque reflue ", "depurazione e riutilizzo", "industria farmaceutica", "industria del sapone", "100%"],
+        ["United States of America Barceloneta, Puerto Rico", "Chertow et al., (2008)", "scarti petrolchimici", "materia prima", "raffineria", "industria del sapone", "40%"],
+        ["United States of America Barceloneta, Puerto Rico", "Chertow et al., (2008)", "calore", "recupero energetico", "industria del sapone", "recupero interno", "70%"],
+        ["United States of America Barceloneta, Puerto Rico", "Chertow et al., (2008)", "fanghi generici", "materia prima", "industria chimica", "riciclatore specializzato", "65%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "ceneri pesanti derivate dal carbone", "sostituzione di sabbia", "produttore di energia", "industria del cemento", "74%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "ceneri volanti derivate dal carbone", "sostituzione di lime", "produttore di energia", "industria del cemento", "48%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "Residuo FGD", "sostituzione di gesso", "fonderia", "industria del cemento", "44%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "altra cenere", "sostituzione di sabbia", "fonderia", "industria del cemento", "95%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "fonderia di sabbia", "sostituzione di sabbia ", "fonderia", "industria del cemento", "45%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "scorie", "sostituzione di cemento", "fonderia", "industria del cemento", "34%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "materiale refrattario", "sostituzione di materiale refrattario", "industrie siderurgiche", "industrie siderurgiche", "16%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rottami ferrosi e polvere", "sostituzione di acciaio vergine", "industrie siderurgiche", "industria edile", "42%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rottami non ferrosi e polvere", "sostituzione di ferro", "industrie siderurgiche", "industria edile", "31%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "fanghi da trattamento acque / acque reflue", "sostituzione di compost", "industria alimentare", "Fattorie locali", "8%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rifiuti alimentari e fanghi", "sostituzione di cibo per animali", "industria alimentare", "Fattorie locali", "75%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "olio / fanghi oleosi", "sostituzione di carburante / olio motore", "raffineria", "industrie siderurgiche", "16%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "fanghi generici", "sostituzione di sabbia", "industrie siderurgiche", "industria del cemento", "20%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "liquore di sottaceto esaurito stabilizzato con calce", "sostituzione di acido cloridrico", "fattorie locali", "industria chimica", "60%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "refrigeranti per macchine", "sostituzione di glicole etilenico", "riciclatore specializzato", "industria chimica", "89%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "scarti di legno", "sostituzione di carbone / pacciame", "industria edile", "produttore di energia", "71%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "prodotti di carta", "sostituzione di carta mista", "riciclatore specializzato", "industria della carta e del cartone", "75%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "scarti tessili", "sostituzione di tessuti", "riciclatore specializzato", "industria tessile", "10%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rottame di vetro", "sostituzione di bicchieri", "riciclatore specializzato", "fonderia", "38%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rifiuti di plastica", "sostituzione di plastica mista", "riciclatore specializzato", "industria della plastica", "24%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "asfalto", "sostituzione di asfalto", "riciclatore specializzato", "comune locale", "61%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "rifiuti ceramici", "sostituzione di sabbia", "riciclatore specializzato", "industrie siderurgiche", "39%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "contenitori", "sostituzione di fusti in acciaio", "riciclatore specializzato", "industrie siderurgiche", "39%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "polvere di baghouse", "sostituzione di sabbia", "riciclatore specializzato", "industrie siderurgiche", "92%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "muro a secco usato", "sostituzione di cartongesso", "riciclatore specializzato", "industrie siderurgiche", "17%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "catalizzatori esauriti", "sostituzione di catalizzatori metallici", "riciclatore specializzato", "industrie siderurgiche", "45%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "detriti e sedimenti", "sostituzione di sabbia", "riciclatore specializzato", "industrie siderurgiche", "21%"],
+        ["United States of America Pennsylvania", "Eckelman and Chertow, (2009) ", "batterie non pericolose", "sostituzione di conduttori", "riciclatore specializzato", "industrie siderurgiche", "98%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "Ceneri volanti", "produzione di cemento", "industrie siderurgiche", "industria del cemento", "75%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "Fanghi di depurazione", "trattamento di depurazione in pellet", "industrie siderurgiche", "industre chimiche", "60%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "Acque reflue", "raffreddamento e lavaggio impianto", "industrie siderurgiche", "riutilizzo interno", "80%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "vapore", "generazione di energia elettrica", "industrie siderurgiche", "produttore di energia", "80%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "vecchi pneumatici", "carburante come sostituto del carbone,produzione asfalto", "industrie siderurgiche", "comune locale", "80%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "carbone attivo granulare", "carburante come sostituto del carbone", "industrie siderurgiche", "produttore di energia", "80%"],
+        ["United States of America Honolulu", "Eckelman and Chertow, (2013) ", "olio esausto", "carburante come sostituto del carbone,produzione di olio base", "industrie siderurgiche", "produttore di energia", ""],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "vapore", "fonte energetica", "impianto di incenerimento", "industria cartiera", "100%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "vapore", "fonte energetica", "impianto di incenerimento", "azienda produttrice di acido pterefteico", "100%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "vapore", "fonte energetica", "industrie chimiche ", "industrie chimiche", "100%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "rifiuti organici", "fonte di carbonio per la denitrificazione in un impianto di trattamento delle acque reflue municipali", "produttore di energia", "comune locale", "65%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "ammoniaca ad alta resistenza", "Conversione di ammoniaca ad alta resistenza contenente acque reflue industriali in un nutriente per microrganismi", "industria dell' acciaio", "industria alimentare", "72%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "agente neutralizzante", "Stabilimento siderurgico che fornisce agente neutralizzante a un'industria di leghe di metalli non ferrosi", "industrie siderurgiche", "industria dell' acciaio", "80%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "chip di alluminio", "Riutilizzo di trucioli di alluminio di scarto come materia prima vergine", "industria dell' acciaio", "industria dell' acciaio", ""],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "olio esausto", "Riciclaggio degli oli usati attraverso una rete che impiega un processo di olio combustibile emulsionato (EFO)", "raffineria", "raffineria", "45%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "polvere di zinco", "Produzione di fiocchi di zinco a valore aggiunto da polvere di zinco", "industrie siderurgiche", "industria chimica", "14%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "vapore", "Impianto di incenerimento in un'industria pesante che fornisce vapore ad altre società", "industrie siderurgiche", "industrie siderurgiche", "100%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", " CO2", "Rete di vapore e anidride carbonica tra una fonderia di zinco e una cartiera", "fonderia", "industria della carta e del cartone", "100%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "materiale di degradazione dell'olio", "Riciclaggio dei fanghi attivi di scarto da utilizzare come materiale di degradazione dell'olio", "produttore di energia", "raffineria", "50%"],
+        ["South Korea Ulsan", "Behera et al., (2012)  ", "vapore", "Rete a vapore tra una società petrolchimica e una società di produzione chimica", "raffineria", "industria chimica", "100%"],
+        ["United States of America Kansas City", "Cimren et al., (2011)", "materiali polimerici di scarto per la produzione di plastica", "materia prima", "riciclatore specializzato", "industria chimica", ""],
+        ["United States of America Kansas City", "Cimren et al., (2011)", "scarti metallici in ferro e acciaio", "materia prima", "industria dell' acciaio", "fonderia", ""],
+        ["United States of America Kansas City", "Cimren et al., (2011)", "rifiuti solidi", "concimante", "comune locale", "Fattorie locali", ""],
+        ["United States of America Kansas City", "Cimren et al., (2011)", "carta reciclata", "materia prima", "riciclatore specializzato", "industria della carta e del cartone", ""],
+        ["United States of America Kansas City", "Cimren et al., (2011)", "materiali organici vari", "materiale per la produzione di biomassa per la produzione energetica", "riciclatore specializzato", "produttore di energia", ""],
+        ["South Korea Banwol-Sihwa", "Yoon and Nadvi, (2018)  ", "calore derivante dalle acque reflue", "recupero energetico", "industria chimica", "produttore di energia", ""],
+        ["South Korea Banwol-Sihwa", "Yoon and Nadvi, (2018)  ", "calore derivante dalle acque reflue", "recupero energetico", "industria chimica", "riciclatore specializzato", ""],
+        ["South Korea Banwol-Sihwa", "Yoon and Nadvi, (2018)  ", "fanghi di effluenti tessili", "materia prima", "industria tessile", "industria del cemento", ""],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "materiali pirolitici di scarto", "recupero energetico", "riciclatore specializzato", "produttore di energia", ""],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "pneumatici usati", "materia prima", "riciclatore specializzato", "comune locale", "40%"],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "carbone nero", "materia prima", "produttore di energia", "industria del cemento", "70%"],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "recupero di cartucce di inchiostro", "materia prima", "riciclatore specializzato", "industria della plastica", "65%"],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "acciaio frantumato", "materia prima", "industria edile", "fonderia", "70%"],
+        ["United States of America Choctaw", "Zhang et al., (2013)", "acque reflue", "raffreddamento e lavaggio impianto", "fonderia", "recupero interno", ""],
+        ["Canada Sarnia-Lambton", "Bansal and Mcknight, (2009)", "biomassa", "fonte energetica alternativa al carbone", "fattorie locali", "produttore di energia", ""],
+        ["Canada Sarnia-Lambton", "Bansal and Mcknight, (2009)", "liquami", "produzione di fertilizzanti organici", "fattorie locali", "industria chimica", ""],
+        ["Canada Sarnia-Lambton", "Bansal and Mcknight, (2009)", "rifiuti organici per uso fertilizzante", "produzione di fertilizzanti organici", "fattorie locali", "industria chimica", ""],
+        ["Canada Sarnia-Lambton", "Bansal and Mcknight, (2009)", "olio esausto", "sostituto del carbone ", "industria chimica", "produttore di energia", ""],
+        ["Canada Sarnia-Lambton", "Bansal and Mcknight, (2009)", "biogas", "fonte energetica alternativa al carbone", "fattorie locali", "produttore di energia", ""],
+        ["Mexico Altamira-Tampico", "Morales et al., (2019)", "rifiuti chimici", "materia prima per la produzione di solventi", "raffineria", "industria chimica", ""],
+        ["Mexico Altamira-Tampico", "Morales et al., (2019)", "sottoprodotti derivanti dall' estrazione petrolifera", "materia prima per la produzione della plastica", "raffineria", "industria della plastica", ""],
+        ["Mexico Altamira-Tampico", "Morales et al., (2019)", "microplastiche", "materia prima", "riciclatore specializzato", "industria chimica", ""],
+        ["South Korea Ulsan", "Park et al., (2008)", "solventi chimici", "materia prima per la produzione di acetone ", "raffineria", "industria chimica", ""],
+        ["South Korea Ulsan", "Park et al., (2008)", "sottoprodotti derivanti dall'estrazione di petrolio greggio", "materia prima per la produzione della plastica", "raffineria", "industria della plastica", ""],
+        ["South Korea Ulsan", "Park et al., (2008)", "acque reflue", "utilizzo per cicli termici industriali", "comune locale", "industria chimica", "65%"],
+        ["South Korea Ulsan", "Park et al., (2008)", "scarti metallici in rame", "materia prima", "riciclatore specializzato", "fonderia", "55%"],
+        ["South Korea Ulsan", "Park et al., (2008)", "scarti metallici non ferrosi", "materia prima", "riciclatore specializzato", "fonderia", "80%"],
+        ["South Korea Ulsan", "Park et al., (2008)", "pasta di cellulosa", "materia prima nella produzione di paste per l' edilizia", "industria della carta", "industria edile", "65%"],
+        ["South Korea Ulsan", "Park et al., (2008)", "calore", "recupero energetico", "fonderia", "recupero interno", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "melassa di scarto della produzione di zucchero", "materia prima per la produzione di alcol", "industria dello zucchero", "produttore di alcol", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", " sottoprodotto fibroso di scarto della canna da zucchero", "materia prima per la produzione di pasta di legno e carta", "industria dello zucchero", "industria della carta e del cartone", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "rifiuti organici della produzione di zucchero", " fonte di combustibile per la generazione di calore", "industria dello zucchero", "produttore di energia", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "liquore nero di scarto dalla produzione di pasta di zucchero", "produzione di alcali riciclati", "industria dello zucchero", "industria chimica", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "materiali organici di scarto dalla produzione di alcol", "produzione di fertilizzanti organici", "produttore di alcol", "industria chimica", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "CO2  di scarto dal processo di fermentazione alcolica", "produzione di carbonato di calcio", "produttore di alcol", "industria chimica", ""],
+        ["China Guigang", "Shi and Chertow, (2017) ", "fanghi di scarto e cenere fresca", "produzione di cemento", "industria chimica", "industria del cemento", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "fanghi di scarto e cenere fresca", "produzione di cemento", "raffineria", "industria del cemento", "92%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "scarti in calcestruzzo", "produzione di cemento", "riciclatore specializzato", "industria del cemento", "77%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "fosfato di ammonio", "produzione di fertilizzanti ", "industria chimica", "produttore specializzato di fertelizzanti", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "rifiuti chimici", "smaltimento in sicurezza", "industria chimica", "riciclatore specializzato", "60%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "idrossido di sodio", "produzione di soda caustica", "industria chimica", "industria dell' elettronica", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "Sali basici", "utilizzati come sostituto dei conservanti chimici", "industria chimica", "industria alimentare", "80%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "acido solfidrico", "sbiancamento della pasta di legno", "industria chimica", "industria della carta e del cartone", "80%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "ammonio ", "produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "bromuro", "produzione di farmaci", "industria chimica", "industria farmaceutica", "80%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "cloro-alcalino", "produzione di dinfettanti", "industria chimica", "industria chimica", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "solfati", "produzione di batterie acide al piombo", "industria chimica", "industria dell' elettronica", "80%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "calore", "recupero energetico", "industria chimica", "riutilizzo interno", ""],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "acque reflue", "irrigazione", "industria chimica", "comune locale", "60%"],
+        ["China Wudi County, Shandong province", "Zhang and Chai, (2019)", "scarti di alluminio", "materia prima", "riciclatore specializzato", "fonderia", ""],
+        ["China Tianjin", "Shi et al., (2010)", "acque reflue", "utilizzo urbano", "industrie siderurgiche", "comune locale", ""],
+        ["China Tianjin", "Shi et al., (2010)", "vapore", "produzione di energia", "industrie siderurgiche", "produttore di energia", ""],
+        ["China Tianjin", "Shi et al., (2010)", "calore", "recupero energetico", "fonderia", "recupero interno", ""],
+        ["China Tianjin", "Shi et al., (2010)", "rifiuti organici", "produzione di compost ", "fattorie locali", "industria chimica", "60%"],
+        ["China Tianjin", "Shi et al., (2010)", "scarti chimici", "trattamento e smaltimento", "industria chimica", "riciclatore specializzato", ""],
+        ["China Suzhou", "Liu et al., (2012)", "sale impuro", "conservante", "produttore di sale", "industria alimentare", ""],
+        ["China Suzhou", "Liu et al., (2012)", "CO2", "produzione di bevande gassate", "industria chimica", "industria alimentare", ""],
+        ["China Suzhou", "Liu et al., (2012)", "calore", "aumento della produzione di bromo", "produttore di sale", "industria alimentare", ""],
+        ["China Suzhou", "Liu et al., (2012)", "acque reflue", "lavaggio impianto", "produttore di sale", "riutilizzo interno", ""],
+        ["China Suzhou", "Liu et al., (2012)", "rifiuti solidi", " materia prima per la produzione di materiali da costruzione", "produttore di sale", "industria edile", ""],
+        ["Weifang China", "Cui et al., (2018) ", "microplastiche", "materia prima", "riciclatore specializzato", "industria della plastica", "4%"],
+        ["Weifang China", "Cui et al., (2018) ", "sodio impuro", "materia prima nella produzione di conservanti conservanti chimici", "produttore di sale", "industria chimica", ""],
+        ["Weifang China", "Cui et al., (2018) ", "bromuro", "produzione di farmaci", "industria chimica", "industria farmaceutica", "65%"],
+        ["Weifang China", "Cui et al., (2018) ", "silicio", "utilizzato nella produzione di integratori alimentari", "industria chimica", "industria farmaceutica", "55%"],
+        ["Weifang China", "Cui et al., (2018) ", "cloruro di calcio", "materia prima per la produzione di addensanti alimentari", "industria chimica", "industria alimentare", ""],
+        ["Weifang China", "Cui et al., (2018) ", "scarti in calcestruzzo", "materia prima", "riciclatore specializzato", "industria del ecemnto", "65%"],
+        ["Weifang China", "Cui et al., (2018) ", "pneumatici usati", "fonte di energia primaria", "riciclatore specializzato", "produttore di energia", ""],
+        ["Weifang China", "Cui et al., (2018) ", "cenere volante", "fonte di energia primaria", "industria del cemento", "industrie siderurgiche", "95%"],
+        ["Weifang China", "Cui et al., (2018) ", "paglia", "materia prima per la produzione di biomasse per la generazione di energia", "fattorie locali", "produttore di energia", ""],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "fango rosso derivante dalla produzione di alluminio", "produzione di materiali da costruzione dopo l'estrazione di ferro", "industria dell' alluminio", "industria edile", "68%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "ceneri di carbone e scorie della centrale termica", "produzione di mattoni", "produttore di energia", "industria edile", "75%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "gesso di desolforazione", "produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", "60%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "scoria di carburo", "sostituisce la calce spenta come materia prima nella produzione di allumino", "fabbrica di carburo", "industria dell' alluminio", "80%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "monossido di carbonio", " bruciato per fornire energia alla fabbrica di calce", "fabbrica di carburo", "fabbrica di calce", "80%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "vapore", "acqua di riempimento delle caldaie negli impianti termoelettrici ", "industria dell' alluminio", "produttore di energia", "80%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "acque reflue", "utilizzata in agricoltura e nella rimozione delle ceneri dalle caldaie.", "comune locale", "Fattorie locali", "80%"],
+        ["China Shenyang", "Geng et al., (2014) ", "calore", "produzione di coke,Produzione cartongesso, produzione di farmaci", "produttore di energia", "industria chimica", "66%"],
+        ["China Shenyang", "Geng et al., (2014) ", "cenere volante", "produzione di cemento", "produttore di energia", "industria del cemento", "55%"],
+        ["China Shenyang", "Geng et al., (2014) ", "Gesso da desolforazione ", "Produzione cartongesso", "industria chimica", "industria del cemento", "72%"],
+        ["China Shenyang", "Geng et al., (2014) ", "scorie", "produzione di mattoni", "produttore di energia", "industria edile", "100%"],
+        ["China Shenyang", "Geng et al., (2014) ", "Rottami di acciaio e ferro", "produzione metallurgica", "produttore di energia", "industria dell' acciaio", "100%"],
+        ["China Shenyang", "Geng et al., (2014) ", "Rifiuti di piombo", "produzione metallurgica", "produttore di autoveicoli ", "industria dell' acciaio", "100%"],
+        ["China Liuzhou", "Dong et al., 2014)", "scarti ferrosi", "produzione metallurgica", "riciclatore specializzato", "produttore di ferro acciaio di base e ferroleghe", ""],
+        ["China Liuzhou", "Dong et al., 2014)", "acciaio riciclato", "produzione metallurgica", "riciclatore specializzato", "industria dell' acciaio", ""],
+        ["China Liuzhou", "Dong et al., 2014)", "liquami ", "produzione di fertilizzanti", "fattorie locali", "produttore specializzato di fertelizzanti", ""],
+        ["China Liuzhou", "Dong et al., 2014)", "cemento e materiali da costruzione di scarto", "produzione di cemento", "industria edile", "industria del cemento", "80%"],
+        ["China Liuzhou", "Dong et al., 2014)", "acque reflue", "raffreddamento cicli termici industriali", "comune locale", "industria del cemento", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "scarti della raffinatura di petrolio", "materia prima per la produzione di polimeri plastici", "raffineria", "industria della plastica", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "acidi nucleici", "materia prima per la produzione di farmaci", "industria chimica", "industria farmaceutica", "75%"],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "enzimi estratti dlalla lavorazione della cellulosa", "materia prima per la produzione di soluzioni chimiche", "industria della carta e del cartone", "industria chimica", "75%"],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "olio esausto", "produzione di biodiesel", "comune locale", "raffineria", "80%"],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "co2", "utilizzata per l' estrazione di petrolio", "industria chimica", "raffineria", "92%"],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "rifiuti chimici", "trattamento e smaltimento", "industria chimica", "riciclatore specializzato", "56%"],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "liquami ", "produzione di fertilizzanti", "fattorie locali", "riutilizzo interno", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "rifiuti plastici", "materia prima", "riciclatore specializzato", "industria della plastica", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "metalli recuperati", "materia prima", "riciclatore specializzato", "fonderia", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "acque reflue", "produzione di aqua antincendio", "comune locale", "riutilizzo interno", ""],
+        ["China Changsha Huangxing", "Zhang et al., (2013)", "calore", "recupero energetico", "fonderia", "produttore di energia", ""],
+        ["China Liaocheng", "Han et al., (2017)", "cloro-alcalino", "produzione di dinfettanti", "industria chimica", "industria alimentare", ""],
+        ["China Liaocheng", "Han et al., (2017)", "scarti metallici in alluminio", "materia prima", "riciclatore specializzato", "industria dell' alluminio", ""],
+        ["China Liaocheng", "Han et al., (2017)", "carbonato di calcio", "produzione di integratori alimentari", "industria chimica", "industria farmaceutica", "75%"],
+        ["China Liaocheng", "Han et al., (2017)", "acque reflue", "raffreddamento cicli termici industriali", "industria chimica", "recupero interno", "75%"],
+        ["China Liaocheng", "Han et al., (2017)", "biomassa", "sostituto del carbone ", "fattorie locali", "produttore di energia", "82%"],
+        ["China Liaocheng", "Han et al., (2017)", "biogas", "produzione di energia", "fattorie locali", "produttore di energia", "91%"],
+        ["China Liaocheng", "Han et al., (2017)", "fango rosso derivamte dalla produzione di alluminio", "produzione di calcestruzzo a basso costo", "industria mineraria", "industria del cemento", "75%"],
+        ["China Liaocheng", "Han et al., (2017)", " scarti in cartongesso", "riutilizzo per materiali da costruzione", "riciclatore specializzato", "industria edile", "65%"],
+        ["China Liaocheng", "Han et al., (2017)", "scarti in pvc", "riciclo chimico per il recupero del cloro", "industria della plastica", "industria chimica", ""],
+        ["China Liaocheng", "Han et al., (2017)", "alluminio elettrolitico", "materia prima per la produzione di alluminio", "riciclatore specializzato", "industria dell' alluminio", ""],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "fango bianco", "sono state utilizzate al posto del carbonato di calcio nelle fabbriche di acido citrico e nei cementifici.", "industria del cemento", "produttore specializzato di fertelizzanti", "90%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "ceneri volanti", "produzione di cemento e nuovi materiali da costruzione", "industria del cemento", "industria del cemento", "80%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "trucioli di legno e segatura", "produzione di carbone di legna", "industria del cemento", "industria del legno", "85%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "fanghi e argilla di scarto", "produzione di fertilizzanti organici", "industria del cemento", "produtore di insetticidi", "80%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "melassa di scarto della produzione di zucchero", "utilizzate al posto della manioca per produrre alcol", "industria dello zucchero", "produttore di alcol", "80%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "metalli di scarto", "riutilizzo del metallo di scarto", "produttore di autoveicoli ", "industria dell' acciaio", "95%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "anidride carbonica", "riutilizzata nella fabbrica di bevande", "produttore di alcl", "industria alimentare", "90%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "acque reflue", "produzione di energia", "comune locale", "produttore di energia", "100%"],
+        ["China Rizhao", "(F. Yu et al., 2015c) ", "calore", "recupero energetico", "fonderia", "recupero interno", "100%"],
+        ["China Jiangsu", "Li and Shi, (2015) ", "argon liquido", "produzione di scudo di gas inerte per le saldature", "industria chimica", "indutria elettronica", "78%"],
+        ["China Jiangsu", "Li and Shi, (2015) ", "acido acetico", "produzione di conservanti alimentari", "industria chimica", "industria alimentare", "65%"],
+        ["China Jiangsu", "Li and Shi, (2015) ", "nitrito di sodio", "produzione di composti organici", "industria chimica", "industria alimentare", "65%"],
+        ["China Jiangsu", "Li and Shi, (2015) ", "ceneri volanti e gesso", "produzione di cemento,calcestruzzo e altri materiali da cotruzione", "produttore di energia", "industria del cemento", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "fanghi di trattamento delle acque", "additivo per combustibili nella centrale termica dopo l'essiccazione", "industria del cemento", "produttore di energia", "40%"],
+        ["China Jiangsu", "Li and Shi, (2015) ", "scarti tessili (cotone e tela)", "produzine di CDR", "industria tessile", "produttore di energia", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "scarti secondari industria chimica", "trattamento e smaltimento", "industria chimica", "riciclatore specializzato", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "calore", "produzione di elettricita", "produttore di energia", "riutilizzo interno", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "acque reflue", "pulizia delle strade comunali", "produttore di energia", "comune locale", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "rifiuti chimici inorganici", "trattamento e smaltimento", "industria chimica", "riciclatore specializzato", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "acido citrico", "produzione di prodotti per la puiizia della casa", "industrie siderurgiche", "industria chimica", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "azoto ", "riutilizzato per la produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", ""],
+        ["China Jiangsu", "Li and Shi, (2015) ", "rottami di ferro e acciaio", "materia prima", "riciclatore specializzato", "fonderia", "60%"],
+        ["China Midong", "Guo et al., (2016) ", "Scorie di carburo", "sostituzione materia prima ", "industria chimica", "industria del cemento", "95%"],
+        ["China Midong", "Guo et al., (2016) ", "Ganga di carbone", "sostituzione materia prima ", "industria mineraria", "produttore di energia", "75%"],
+        ["China Midong", "Guo et al., (2016) ", "Scorie", "trattamento e smaltimento", "produttore di energia", "riciclatore specializzato", "80%"],
+        ["China Midong", "Guo et al., (2016) ", "Ceneri volanti", "materia prima per la produzione di calcestruzzo", "produttore di energia", "industria edile", "80%"],
+        ["China Midong", "Guo et al., (2016) ", "Roccia di scarto", "sostituzione materia prima ", "industria mineraria", "industria del cemento", "80%"],
+        ["China Midong", "Guo et al., (2016) ", "Carbone esposto all'aria", "materia prima per la produzione di coke", "produttore di energia", "industria del cemento", "65%"],
+        ["China Midong", "Guo et al., (2016) ", "Gesso di desolforazione", "sostituzione materia prima ", "industria mineraria", "industria del cemento", "70%"],
+        ["China Midong", "Guo et al., (2016) ", "Rifiuti di ferro e acciaio", "sottoprodotti metallici derivanti da reazioni chimiche all' interno dei processi di lavorazione principali", "industria chimica", "industria edile", "70%"],
+        ["China Midong", "Guo et al., (2016) ", "Cenere di rame", "sostituzione materia prima ", "industria chimica", "industria dell' acciaio", "70%"],
+        ["China Midong", "Guo et al., (2016) ", "Acido cloridrico di scarto", "sostituzione materia prima ", "produttore di energia", "industria del cemento", ""],
+        ["China Midong", "Guo et al., (2016) ", "Rifiuti legati al mercurio", "trattamento e smaltimento", "industria mineraria", "riciclatore specializzato", ""],
+        ["China Midong", "Guo et al., (2016) ", "Acque reflue", "raffrreddamento", "industria mineraria", "produttore di energia", ""],
+        ["China Dalian", "Zhe et al., (2016)", "acque reflue", "raffreddamento", "comune locale", "produttore di energia", ""],
+        ["China Dalian", "Zhe et al., (2016)", "rifiuti organici", "produzione di combustibili alternativi", "fattorie locali", "produttore di energia", ""],
+        ["China Dalian", "Zhe et al., (2016)", "scarti di lavorazione del petrolio", "produzione di catrame", "raffineria", "comune locale", ""],
+        ["China Dalian", "Zhe et al., (2016)", "rifiuti metallici", "materia prima", "riciclatore specializzato", "fonderia", ""],
+        ["China Dalian", "Zhe et al., (2016)", "nitrato di ammonio", "produzione di esplosivi", "industria chimica", "industria degli esplosivi", ""],
+        ["China Dalian", "Zhe et al., (2016)", "ammonio ", "produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", ""],
+        ["China Jiangsu", "Li and Shi, (2015)", "scarti tessili (cotone e tela)", "produzione di combustibili alternativi per la produzione di energia", "industria tessile", "produttore di energia", "90%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "scarti secondari insutria chimica", "trattamento e smaltimento", "industria chimica", "riciclatore specializzato", "80%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "calore", "riutilizzo ", "industrie siderurgiche", "riutilizzo interno", "100%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "acque reflue", "raffreddamento", "comune locale", "produttore di energia", "100%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "rifiuti chimici inorganici", "trattamento e smaltimento", "industria chmica", "riciclatore specializzato", "75%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "acido citrico", "produzione di prodotti disinfettanti", "industria chimica", "industria chimica", "65%"],
+        ["China Jiangsu", "Li and Shi, (2015)", "azoto ", "produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", "65%"],
+        ["China Wu’an", "Cao et al., (2017) ", "scarti di metallo ferrosi", "materia prima", "riciclatore specializzato", "fonderia", "38%"],
+        ["China Wu’an", "Cao et al., (2017) ", "scorie d altoforno", "materia prima per la produzione del cemento Portland", "fonderia", "industria del cemento", "100%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Ghiaia mineraria", "materia prima per la produzione di calcestruzzo", "industria mineraria", "industria del cemento", "75%"],
+        ["China Wu’an", "Cao et al., (2017) ", "residui di calcare e di arenaria", "materiale secondario per la produzione di calcestruzzo", "industria mineraria", "industria del cemento", "100%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Ganga di carbone", "produzione di terrapieni", "industria mineraria", "industria del cemento", "54%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Scorie d'acciaio", "materia prima", "riciclatore specializzato", "fonderia", "20%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Cenere volante", "produzione di pozzolana", "industria mineraria", "industria del cemento", "100%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Gesso FDG", "materia prima perla produzione di gesso", "industria mineraria", "industria edile", "100%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Rifiuti domestici", "produzione di mangimi pr animali", "riciclatore specializzato", "Fattorie locali", "100%"],
+        ["China Wu’an", "Cao et al., (2017) ", "Fanghi", "irrigazione", "comune locale", "Fattorie locali", "100%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "scarti lavorazione dell' acciaio", "materia prima", "riciclatore specializzato", "fonderia", "75%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "scarti impuri di calcestruzzo", "materia prima per la produzione di calcestruzzo", "industria del cemento", "industria del cemento", "70%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "pasta di cellulosa", "produzione di intonaci", "industria della carta e del cartone", "industria edile", "65%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "rifiuti organici", "produzione di mangimi pr animali", "riciclatore specializzato", "Fattorie locali", ""],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "acque reflue", "produzione di energia", "comune locale", "produttore di energia", "100%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "calore", "recupero energetico", "fonderia", "recupero interno", "100%"],
+        ["Japan Kawasaki", "Dong et al. (2013b)", "CO2", "produzione di bevande gassate", "industria chimica", "industria alimentare", "95%"],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "rifiuti in plastica", "materia prima", "riciclatore specializzato", "industria della plastica", ""],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "rifiuti di apparecchiature per ufficio", "recupero di rame ed conduttori", "riciclatore specializzato", "industria dell' elettronica", "70%"],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "tarttamento di rifiuti edili", "produzione di materiale cementizio", "industria edile", "industria del cemento", ""],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "metallo derivante da lattine", "materia prima", "riciclatore specializzato", "fonderia", "75%"],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "rifiuti in legno ", "produzione di combustibile", "industria edile", "produttore di energia", ""],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "olio esausto", "produzione di biodiesel", "comune locale", "raffineria", "70%"],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "solventi organici", "riutilizzati all' interno di sintesi chimiche", "industria chimica", "industria chimica", "80%"],
+        ["Japan Kitakyushu", "Zhang et al., (2013)", "rottami di automobili", "estrazione di materiali in ferro e acciaio", "riciclatore specializzato", "fonderia", ""],
+        ["India Nanjangud", "Bain et al., (2010)", "scarti di granito", "produzione di pavimentazioni", "industria mineraria", "industria edile", "90%"],
+        ["India Nanjangud", "Bain et al., (2010)", "scarti di lavorazione del petrolio", "produzione di coke ", "raffineria", "industrie siderurgiche", "85%"],
+        ["India Nanjangud", "Bain et al., (2010)", "CO2", "materia prima", "fattorie locali", "industria di bevande", "74%"],
+        ["India Nanjangud", "Bain et al., (2010)", "rifiuti organici", "produznione di fertilizzanti", "riciclatore specializzato", "produttore specializzato di fertelizzanti", "62%"],
+        ["India Nanjangud", "Bain et al., (2010)", "scarti lavorazione dello zucchero", "produzione di conservanti alimentari", "industria dello zucchero", "industria alimentare", "70%"],
+        ["India Nanjangud", "Bain et al., (2010)", "alcol derivante dalla produzione di biofertilizzanti", "produzione di alcolici", "produttore specializzato di fertilizzanti", "produttore di alcol", ""],
+        ["India Nanjangud", "Bain et al., (2010)", "acque reflue", "lavaggio impianto", "produttore di zucchero", "riutilizzo interno", "100%"],
+        ["India Nanjangud", "Bain et al., (2009)  ", "Biomassa: Bagassa", "produzione di combustibile", "industria dello zucchero", "riutilizzo interno", ""],
+        ["India Nanjangud", "Bain et al., (2009)  ", "Biomassa: altro", "produzione di combustibile", "industria dello zucchero", "produttore di energia", ""],
+        ["India Nanjangud", "Bain et al., (2009)  ", "Residui alimentari", "produzione di mangimi per animali", "industria dello zucchero", "Fattorie locali", ""],
+        ["India Nanjangud", "Bain et al., (2009)  ", "ceneri volanti", "produzione di cemento", "produttore di energia", "industria del cemento", ""],
+        ["India Nanjangud", "Bain et al., (2009)  ", "biogas", "combustibile", "industria dello zucchero", "produttore di energia", ""],
+        ["India Nanjangud", "Bain et al., (2009)  ", "Acido esaurito", "produzione di batterie acide al piombo", "industria dello zucchero", "industria dell' elettronica", ""],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "alluminio di scarto", "materia prima", "riciclatore specializzato", "industria dell' alluminio", "85%"],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "gas industriale di scarto", "combustibile alternativo", "industria dell' alluminio", "produttore di energia", "70%"],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "polvere di zirconia", "produzione di zirconi", "produttore di zirconi", "riutilizzo interno", ""],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "liquami ", "produzione di fertilizzanti", "fattorie locali", "produttore specializzato di fertelizzanti", "84%"],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "ganga di carbone", "produzione di terrapieni", "industria mineraria", "industria del cemento", ""],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "cemento e calce di scarto", "produzione di cemento e nuovi materiali da costruzione", "industria del cemento", "industria del cemento", "90%"],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "rifiuti in ghisa", "produzione di pavimentazioni", "industria mineraria", "industria edile", ""],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "rifiuti di rame", "produzione di cavi elettrici", "riciclatore specializzato", "industria dell' elettronica", ""],
+        ["Australia Kwinana", "Van Beers et al., (2007)", "GNL", "prodotto secondario dal processo di raffinazione del petrolio", "raffineria", "produttore di energia", "90%"],
+        ["Australia Gladstone", "Golev et al., (2014)", "fanghi di scarto e cenere fresca", "produzione di cemento", "raffineria", "industria del cemento", "72%"],
+        ["Australia Gladstone", "Golev et al., (2014)", "liquami ", "produzione di fertilizzanti", "fattorie locali", "riutilizzo interno", ""],
+        ["Australia Gladstone", "Golev et al., (2014)", "biogas", "produzione di combustibile alternativo", "fattorie locali", "prouttore di energia", ""],
+        ["Australia Gladstone", "Golev et al., (2014)", "GNL", "prodotto secondario dal processo di raffinazione del petrolio", "raffineria", "produttore di energia", "75%"],
+        ["Australia Gladstone", "Golev et al., (2014)", "solventi esausti", "riutilizzati all' interno di sintesi chimiche", "industria chimica", "industria chimica", ""],
+        ["Australia Gladstone", "Golev et al., (2014)", "alluminio di scarto", "materia prima", "riciclatore specializzato", "industria dell' alluminio", ""],
+        ["Australia Gladstone", "Golev et al., (2014)", "nitrato di ammonio", "produzione di ghiaccio istantaneo", "industria mineraria", "industria chimica", ""],
+        ["Australia Gladstone", "Golev et al., (2014)", "acque reflue ", "raffreddamento", "comune locale", "produttore di energia", "100%"],
+        ["Australia Gladstone", "Golev et al., (2014)", "calore", "produzione di elettricita", "produttore di energia", "riutilizzo interno", "100%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Olio da cucina esausto", "Produce biodiesel come carburante ausiliario per automobili", "industria alimentare", "raffineria", "80%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Biosolids (fanghi organici)", "Produce biogas come fonte di energia ausiliaria", "comune locale", "industria chimica", "75%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Gesso", "Calcio solfato disidrato (CaSO 4 · 2H 2 O)", "produttore di energia", "industria del cemento", "70%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Cenere volante", "La cenere volante può essere utilizzata come materiale sostitutivo parziale del cemento", "produttore di energia", "industria del cemento", "70%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Spreco di cibo", "Produce biogas come fonte di energia ausiliaria", "industria alimentare", "industria chimica", "80%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Fanghi contenenti metalli", "Produce mattoni - gli ossidi di metallo nei fanghi possono essere utilizzati per sostituire parzialmente il cemento", "comune locale", "industria edile", "82%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Scorie d'altoforno", "Produce mattoni - gli ossidi di metallo nei fanghi possono essere utilizzati per sostituire parzialmente il cemento", "industria mineraria", "industria edile", ""],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Zolfo", "Produce acido solforico", "raffineria", "industria chimica", ""],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Rifiuti di biomassa", "Produce energia come fonte di energia ausiliaria", "fattorie locali", "produttore di energia", ""]]
+
+        var tableHeader = ["Luogo", "Articolo", "Rifiuto", "Processo produttivo", "Azienda che emette il rifiuto", "Azienda che prende il rifiuto", "Coeff. Sostituzione "];
+
+        
+        function removeElement(element) {
+            element.parentNode.removeChild(element);
+        }
+
+        function createTable(tableData) {
+            var table = document.getElementById("table");
+            if (table) removeElement(table);
+
+            var table = document.createElement('table');
+            table.setAttribute("id", "table");
+            table.setAttribute("class", "table table-striped");
+
+            var tableHeader = document.createElement('thead')
+            var row = document.createElement('tr');
+            tableData.shift().forEach(function (elem) {
+                var cell = document.createElement('td');
+                cell.setAttribute("class", "bold");
+                cell.appendChild(document.createTextNode(elem));
+                row.appendChild(cell);
+            });
+
+            tableHeader.appendChild(row);
+            table.appendChild(tableHeader);
+
+            var tableBody = document.createElement('tbody');
+
+            tableData.forEach(function (rowData) {
+                var row = document.createElement('tr');
+
+                rowData.forEach(function (cellData) {
+                    var cell = document.createElement('td');
+                    cell.appendChild(document.createTextNode(cellData));
+                    row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+            });
+
+            table.appendChild(tableBody);
+            document.body.appendChild(table);
+        }
+
+        var tabellaInizio = data;
+
+        tabellaInizio.unshift(tableHeader);
+
+        createTable(tabellaInizio);
+        
+        
+
+        function clicco() {
+
+            var lines = data;
+
+            var columnMap = [2, 3, 4];
+
+            [document.getElementById("input1").value.trim().toLowerCase(),
+            document.getElementById("input2").value.trim().toLowerCase(),
+            document.getElementById("input3").value.trim().toLowerCase()]
+                .map(function (input, index) {
+                    return { key: input, toFilter: input != "", column: columnMap[index] }
+                }).filter(function (input) {
+                    return input.toFilter
+                }).forEach(function (input) {
+                    lines = lines.filter(function (line) {
+                        return line[input.column].trim().toLowerCase() === input.key;
+                    }).map( function (x) {
+                        x[input.column] = x[input.column];
+                        return x;
+                    })
+                })
+
+            lines.unshift(tableHeader);
+            createTable(lines);
+        }
+
+/*         document.addEventListener('DOMContentLoaded', function (){
+            createTable(tabellaInizio);
+        }); */
+    </script>
+</body>
+
+</html>
