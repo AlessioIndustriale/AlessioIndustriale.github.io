@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,8 @@
         .bold {
             font-weight: bolder;
         }
-        p{
+
+        p {
             width: 80%;
             margin: auto;
             text-align: left;
@@ -29,14 +31,29 @@
             Dizionario Di Simbiosi Industriale
         </h1>
 
-        <p>Il Dizionario Di Simbiosi Industriale nasce con l’obiettivo di facilitare l’adozione di sinergie simbiotiche tra le aziende documentando i legami già presenti nel mondo industriale</p>
+        <p>Il Dizionario Di Simbiosi Industriale nasce con l’obiettivo di facilitare l’adozione di sinergie simbiotiche
+            tra le aziende documentando i legami già presenti nel mondo industriale</p>
         <p>Inserire almeno uno dei tre campi per poter filtrare i record del Dizionario di interesse</p>
-        <p>Il sito è online grazie a github pages al seguente indirizzo <a href="https://alessioindustriale.github.io/">alessioindustriale.github.io</a> ed è possibile aggiornarlo e/o editarlo direttamente dalla pagina della repository all'indirizzo: <a href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/AlessioIndustriale/AlessioIndustriale.github.io</a></p>
+        <p>Il sito è online grazie a github pages al seguente indirizzo <a
+                href="https://alessioindustriale.github.io/">alessioindustriale.github.io</a> ed è possibile aggiornarlo
+            e/o editarlo direttamente dalla pagina della repository all'indirizzo: <a
+                href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/AlessioIndustriale/AlessioIndustriale.github.io</a>
+        </p>
         <br>
-        <input type="text" placeholder="Rifiuto" id="input1" value="acque reflue">
-        <input type="text" placeholder="Luogo" id="input2"> <!-- mettere luogo -->
-        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="comune locale"> 
-        
+
+        <input list="listInput1" placeholder="Rifiuto" id="input1" value="acque reflue">
+        <datalist id="listInput1">
+        </datalist>
+        <input list="listInput2" placeholder="Luogo" id="input2" >
+        <datalist id="listInput2">
+        </datalist>
+        <input list="listInput3" placeholder="Azienda che emette il rifiuto" id="input3" value="comune locale" >
+        <datalist id="listInput3">
+        </datalist>
+        <!--<input type="text" placeholder="Rifiuto" id="input1" value="acque reflue">
+        <input type="text" placeholder="Luogo" id="input2">  
+        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="comune locale"> -->
+
         <button onclick="clicco()">Cerca</button>
 
     </div>
@@ -314,7 +331,7 @@
         ["China Suzhou", "Liu et al., (2012)", "CO2", "produzione di bevande gassate", "industria chimica", "industria alimentare", ""],
         ["China Suzhou", "Liu et al., (2012)", "calore", "aumento della produzione di bromo", "produttore di sale", "industria alimentare", ""],
         ["China Suzhou", "Liu et al., (2012)", "acque reflue", "lavaggio impianto", "produttore di sale", "riutilizzo interno", ""],
-        ["China Suzhou", "Liu et al., (2012)", "rifiuti solidi", " materia prima per la produzione di materiali da costruzione", "produttore di sale", "industria edile", ""],
+        ["China Suzhou", "Liu et al., (2012)", "rifiuti solidi", " materia prima per la produzione di materiali da costruzione", "produttore di sale", "industria edile", ""],
         ["Weifang China", "Cui et al., (2018) ", "microplastiche", "materia prima", "riciclatore specializzato", "industria della plastica", "4%"],
         ["Weifang China", "Cui et al., (2018) ", "sodio impuro", "materia prima nella produzione di conservanti conservanti chimici", "produttore di sale", "industria chimica", ""],
         ["Weifang China", "Cui et al., (2018) ", "bromuro", "produzione di farmaci", "industria chimica", "industria farmaceutica", "65%"],
@@ -328,7 +345,7 @@
         ["China Liaocheng", "F. Yu et al., (2015) b ", "ceneri di carbone e scorie della centrale termica", "produzione di mattoni", "produttore di energia", "industria edile", "75%"],
         ["China Liaocheng", "F. Yu et al., (2015) b ", "gesso di desolforazione", "produzione di fertilizzanti", "industria chimica", "produttore specializzato di fertelizzanti", "60%"],
         ["China Liaocheng", "F. Yu et al., (2015) b ", "scoria di carburo", "sostituisce la calce spenta come materia prima nella produzione di allumino", "fabbrica di carburo", "industria dell' alluminio", "80%"],
-        ["China Liaocheng", "F. Yu et al., (2015) b ", "monossido di carbonio", " bruciato per fornire energia alla fabbrica di calce", "fabbrica di carburo", "fabbrica di calce", "80%"],
+        ["China Liaocheng", "F. Yu et al., (2015) b ", "monossido di carbonio", " bruciato per fornire energia alla fabbrica di calce", "fabbrica di carburo", "fabbrica di calce", "80%"],
         ["China Liaocheng", "F. Yu et al., (2015) b ", "vapore", "acqua di riempimento delle caldaie negli impianti termoelettrici ", "industria dell' alluminio", "produttore di energia", "80%"],
         ["China Liaocheng", "F. Yu et al., (2015) b ", "acque reflue", "utilizzata in agricoltura e nella rimozione delle ceneri dalle caldaie.", "comune locale", "Fattorie locali", "80%"],
         ["China Shenyang", "Geng et al., (2014) ", "calore", "produzione di coke,Produzione cartongesso, produzione di farmaci", "produttore di energia", "industria chimica", "66%"],
@@ -468,7 +485,7 @@
         ["Australia Gladstone", "Golev et al., (2014)", "calore", "produzione di elettricita", "produttore di energia", "riutilizzo interno", "100%"],
         ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Olio da cucina esausto", "Produce biodiesel come carburante ausiliario per automobili", "industria alimentare", "raffineria", "80%"],
         ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Biosolids (fanghi organici)", "Produce biogas come fonte di energia ausiliaria", "comune locale", "industria chimica", "75%"],
-        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Gesso", "Calcio solfato disidrato (CaSO 4 · 2H 2 O)", "produttore di energia", "industria del cemento", "70%"],
+        ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Gesso", "Calcio solfato disidrato (CaSO 4 · 2H 2 O)", "produttore di energia", "industria del cemento", "70%"],
         ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Cenere volante", "La cenere volante può essere utilizzata come materiale sostitutivo parziale del cemento", "produttore di energia", "industria del cemento", "70%"],
         ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Spreco di cibo", "Produce biogas come fonte di energia ausiliaria", "industria alimentare", "industria chimica", "80%"],
         ["Singapore Jurong Island", "Yin and Lee, (2019) ", "Fanghi contenenti metalli", "Produce mattoni - gli ossidi di metallo nei fanghi possono essere utilizzati per sostituire parzialmente il cemento", "comune locale", "industria edile", "82%"],
@@ -478,7 +495,38 @@
 
         var tableHeader = ["Luogo", "Articolo", "Rifiuto", "Processo produttivo", "Azienda che emette il rifiuto", "Azienda che prende il rifiuto", "Coeff. Sostituzione "];
 
-        
+        var columnMap = [2, 0, 4];
+
+        inputArray = [document.getElementById("input1").value.trim().toLowerCase(),
+        document.getElementById("input2").value.trim().toLowerCase(),
+        document.getElementById("input3").value.trim().toLowerCase()];
+
+        function uniq(a) {
+            return a.sort().filter(function (item, pos, ary) {
+                return !pos || item != ary[pos - 1];
+            });
+        }
+
+        inputArray.forEach(function (input, index) {
+            let id = `listInput${index + 1}`;
+            var options = data.map(function (x) { return x[columnMap[index]].trim().toLowerCase() });
+
+            options = uniq(options);
+
+            loadOption(options, document.getElementById(id));
+        })
+
+
+        function loadOption(options, element) {
+            for (var i = 0; i < options.length; i++) {
+                var opt = options[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                element.appendChild(el);
+            }
+        }
+
         function removeElement(element) {
             element.parentNode.removeChild(element);
         }
@@ -526,18 +574,20 @@
         tabellaInizio.unshift(tableHeader);
 
         createTable(tabellaInizio);
-        
-        
+
+
 
         function clicco() {
 
+            inputArray = [document.getElementById("input1").value.trim().toLowerCase(),
+                document.getElementById("input2").value.trim().toLowerCase(),
+                document.getElementById("input3").value.trim().toLowerCase()];
+
             var lines = data;
 
-            var columnMap = [2, 0, 4];
+            console.log('ciao');
 
-            [document.getElementById("input1").value.trim().toLowerCase(),
-            document.getElementById("input2").value.trim().toLowerCase(),
-            document.getElementById("input3").value.trim().toLowerCase()]
+            inputArray
                 .map(function (input, index) {
                     return { key: input, toFilter: input != "", column: columnMap[index] }
                 }).filter(function (input) {
@@ -545,7 +595,7 @@
                 }).forEach(function (input) {
                     lines = lines.filter(function (line) {
                         return line[input.column].trim().toLowerCase() === input.key;
-                    }).map( function (x) {
+                    }).map(function (x) {
                         x[input.column] = x[input.column];
                         return x;
                     })
@@ -555,9 +605,9 @@
             createTable(lines);
         }
 
-/*         document.addEventListener('DOMContentLoaded', function (){
-            createTable(tabellaInizio);
-        }); */
+        /*         document.addEventListener('DOMContentLoaded', function (){
+                    createTable(tabellaInizio);
+                }); */
     </script>
 </body>
 
