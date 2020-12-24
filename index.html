@@ -12,6 +12,11 @@
             margin: 10px;
         }
 
+        #table_container{
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+
 
 
         .bold {
@@ -41,7 +46,7 @@
         <p>Insert at least an input into the form to filter the dataset and get the records of interest</p>
         <p>This site is online thanks to github pages at the following address <a
                 href="https://alessioindustriale.github.io/">alessioindustriale.github.io</a> and it's possible to see the source, update and edit at the repository page that can be found here: <a
-                href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/AlessioIndustriale/AlessioIndustriale.github.io</a>
+                href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/Alessio</a>
         </p>
         <br>
 
@@ -68,6 +73,9 @@
 
     </div>
     <div style="padding-top: 20px;"></div>
+    <div id="table_container"> 
+
+    </div>
 
     <script>
         var data = [["Denmark", "Kalundborg", "Chopra and Khanna (2014)", "waste water", "cooling down", "energy plant", "local municipality", "100%"],
@@ -578,7 +586,7 @@
             });
 
             table.appendChild(tableBody);
-            document.body.appendChild(table);
+            document.getElementById("table_container").appendChild(table);
         }
 
         var tabellaInizio = data;
