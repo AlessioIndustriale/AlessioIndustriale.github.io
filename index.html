@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dizionario Di Simbiosi Industriale</title>
+    <title>Industrial Symbiosis Dictionary</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
@@ -45,8 +45,8 @@
         <p>The Industrial Symbiosis Dictionary born with the aim of making it easier to adopt symbiotic synergies between companies documenting links already present into the industrial world</p>
         <p>Insert at least an input into the form to filter the dataset and get the records of interest</p>
         <p>This site is online thanks to github pages at the following address <a
-                href="https://alessioindustriale.github.io/">alessioindustriale.github.io</a> and it's possible to see the source, update and edit at the repository page that can be found here: <a
-                href="https://github.com/AlessioIndustriale/AlessioIndustriale.github.io">github.com/Alessio</a>
+                href="https://industrialsymbiosisdictionary.github.io/">IndustrialSymbiosisDictionary.github.io</a> and it's possible to see the source, update and edit at the repository page that can be found here: <a
+                href="https://github.com/IndustrialSymbiosisDictionary/IndustrialSymbiosisDictionary.github.io">github.com/IndustrialSymbiosisDictionary</a>
         </p>
         <br>
 
@@ -65,9 +65,6 @@
         <input list="listInput5" placeholder="Company that retrive the waste" id="input5">
         <datalist id="listInput5">
         </datalist>
-        <!--<input type="text" placeholder="Rifiuto" id="input1" value="acque reflue">
-        <input type="text" placeholder="Luogo" id="input2">  
-        <input type="text" placeholder="Azienda che emette il rifiuto" id="input3" value="comune locale"> -->
 
         <button onclick="search()">Search</button>
 
@@ -89,16 +86,16 @@
         ["Denmark", "Kalundborg", "Branson (2016)", "ashes", "processing", "energy plant", "cement industry", "80%"],
         ["Denmark", "Kalundborg", "Branson (2016)", "heat", "heating", "energy plant", "fishing industry", "65%"],
         ["Denmark", "Kalundborg", "Branson (2016)", "steam", "community warming", "energy plant", "local municipality", "65%"],
-        ["United Kingdom", "Humber,UK", "Velentruf (2016) ", "exhausted oil", "fuel", "refinery", "energy plant", "80%"],
-        ["United Kingdom", "Humber,UK", "Velentruf (2016) ", "organic waste", "fuel", "local farms", "energy plant", "80%"],
-        ["United Kingdom", "Humber,UK", "Velentruf (2016) ", "biofuel", "fuel", "specialized recycler", "energy plant", "85%"],
-        ["United Kingdom", "Humber,UK", "Velentruf (2016) ", "biofuel", "fuel", "refinery", "energy plant", "75%"],
-        ["United Kingdom", "Humber,UK", "Velentruf (2016) ", "exhausted oil", "fuel", "specialized recycler", "refinery", "80%"],
-        ["United Kingdom", "Humber,UK", "Mirata, (2004)", "exhausted oil", "fuel", "chemical industry", "energy plant", "70%"],
-        ["United Kingdom", "Humber,UK", "Mirata, (2004)", "LNG", "fuel", "refinery", "energy plant", "60%"],
-        ["United Kingdom", "Humber,UK", "Mirata, (2004)", "waste water", "cooling down", "energy plant", "energy plant", ""],
-        ["United Kingdom", "Humber,UK", "Mirata, (2004)", "chemical waste", "recycling", "chemical industry", "specialized recycler", ""],
-        ["United Kingdom", "Humber,UK", "Mirata, (2004)", "biomass", "combustion", "local farms", "energy plant", ""],
+        ["United Kingdom", "Humber", "Velentruf (2016) ", "exhausted oil", "fuel", "refinery", "energy plant", "80%"],
+        ["United Kingdom", "Humber", "Velentruf (2016) ", "organic waste", "fuel", "local farms", "energy plant", "80%"],
+        ["United Kingdom", "Humber", "Velentruf (2016) ", "biofuel", "fuel", "specialized recycler", "energy plant", "85%"],
+        ["United Kingdom", "Humber", "Velentruf (2016) ", "biofuel", "fuel", "refinery", "energy plant", "75%"],
+        ["United Kingdom", "Humber", "Velentruf (2016) ", "exhausted oil", "fuel", "specialized recycler", "refinery", "80%"],
+        ["United Kingdom", "Humber", "Mirata, (2004)", "exhausted oil", "fuel", "chemical industry", "energy plant", "70%"],
+        ["United Kingdom", "Humber", "Mirata, (2004)", "LNG", "fuel", "refinery", "energy plant", "60%"],
+        ["United Kingdom", "Humber", "Mirata, (2004)", "waste water", "cooling down", "energy plant", "energy plant", ""],
+        ["United Kingdom", "Humber", "Mirata, (2004)", "chemical waste", "recycling", "chemical industry", "specialized recycler", ""],
+        ["United Kingdom", "Humber", "Mirata, (2004)", "biomass", "combustion", "local farms", "energy plant", ""],
         ["United Kingdom", "Bristol", "Cerceau (2014) ", "LNG", "international symbiotic exchanges", "Europe (Fr. Marseille, Fr. Zealand, Fr. Rotterdam, Antwerp, Brussels, Galicia, Bristol)", "Europe (p. Marseille, p. Zealand, p. Rotterdam, Antwerp, Brussels, Galicia, Bristol)", ""],
         ["United Kingdom", "Bristol", "Cerceau (2014) ", "metal scraps", "international symbiotic exchanges", "Asia (Osaka, Kawasaki, Tianjin, Ningbo, Ulsan, Map ta Phut)", "Asia (Osaka, Kawasaki, Tianjin, Ningbo, Ulsan, Map ta Phut)", ""],
         ["United Kingdom", "Bristol", "Cerceau (2014) ", "exhausted oil", "international symbiotic exchanges", "Africa (Jorf Lasfar, Morocco, Bejaja)", "Africa (Jorf Lasfar, Morocco, Bejaja)", ""],
