@@ -1,1 +1,1 @@
-# AlessioIndustriale.github.io
+# IndustrialSymbiosisDictionary.github.io
